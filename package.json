@@ -1,0 +1,23 @@
+{
+  "name": "ai-reviewer",
+  "version": "0.1.0",
+  "description": "Local AI code reviewer that runs in a git pre-commit hook using Ollama.",
+  "license": "MIT",
+  "author": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "type": "commonjs",
+  "bin": {
+    "ai-reviewer": "bin/install.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "lint": "node -c bin/install.js && node -c src/reviewer.js && node -c src/ollama.js && node -c src/formatter.js && node -c src/config.js",
+    "install-hook": "node bin/install.js install",
+    "run": "node bin/install.js run"
+  }
+}

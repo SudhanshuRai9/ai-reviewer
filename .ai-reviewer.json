@@ -1,0 +1,29 @@
+{
+  "ollama": {
+    "baseUrl": "http://localhost:11434",
+    "model": "gemma4:e4b",
+    "timeoutMs": 12000
+  },
+  "review": {
+    "maxDiffChars": 18000,
+    "temperature": 0.2,
+    "maxTokens": 900
+  },
+  "behavior": {
+    "blockOnSeverities": ["high"],
+    "blockOnOllamaDown": false,
+    "blockOnInvalidJson": false,
+    "printModelResponseOnInvalidJson": true
+  },
+  "rules": [
+    "Find security issues (injection, auth, secrets, unsafe deserialization, path traversal).",
+    "Find logic bugs, edge cases, and incorrect assumptions.",
+    "Find code smells and maintainability risks (naming, duplication, complexity).",
+    "Check error handling and input validation.",
+    "Suggest minimal, concrete fixes."
+  ],
+  "prompt": {
+    "system": "You are a senior software engineer doing an ultra-fast pre-commit review. Be specific and actionable. Prioritize high-impact issues. If you are unsure, say so.",
+    "format": "json"
+  }
+}

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${AI_REVIEWER_SKIP:-}" == "1" ]]; then
+  exit 0
+fi
+
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
+if [[ -z "${REPO_ROOT}" ]]; then
+  exit 0
+fi
+
+cd "$REPO_ROOT"
+
+if [[ -x "./node_modules/.bin/ai-reviewer" ]]; then
+  ./node_modules/.bin/ai-reviewer run --hook
+  exit $?
+fi
+
+if command -v ai-reviewer >/dev/null 2>&1; then
+  ai-reviewer run --hook
+  exit $?
+fi
+
+if command -v npx >/dev/null 2>&1; then
+  npx --yes ai-reviewer run --hook
+  exit $?
+fi
+
+echo "ai-reviewer: not installed (missing ./node_modules/.bin/ai-reviewer and npx). Skipping."
+exit 0
+
