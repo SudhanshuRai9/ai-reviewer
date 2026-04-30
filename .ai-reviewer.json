@@ -2,7 +2,7 @@
   "ollama": {
     "baseUrl": "http://localhost:11434",
     "model": "gemma4:e4b",
-    "timeoutMs": 12000
+    "timeoutMs": 30000
   },
   "review": {
     "maxDiffChars": 18000,
@@ -11,7 +11,7 @@
   },
   "behavior": {
     "blockOnSeverities": ["high"],
-    "blockOnOllamaDown": false,
+    "blockOnOllamaDown": true,
     "blockOnInvalidJson": false,
     "printModelResponseOnInvalidJson": true
   },
