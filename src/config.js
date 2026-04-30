@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 function isPlainObject(value) {
-  return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
 function mergeConfig(base, override) {
@@ -25,24 +25,31 @@ function mergeConfig(base, override) {
 
 function readJsonIfExists(filePath) {
   if (!fs.existsSync(filePath)) return null;
-  const raw = fs.readFileSync(filePath, 'utf8');
+  const raw = fs.readFileSync(filePath, "utf8");
   return JSON.parse(raw);
 }
 
 function loadConfig({ repoRoot }) {
-  const defaultsPath = path.join(__dirname, '..', '.ai-reviewer.json');
+  const defaultsPath = path.join(__dirname, "..", ".ai-reviewer.json");
   const defaults = readJsonIfExists(defaultsPath) || {};
 
-  const repoConfigPath = repoRoot ? path.join(repoRoot, '.ai-reviewer.json') : null;
+  const repoConfigPath = repoRoot
+    ? path.join(repoRoot, ".ai-reviewer.json")
+    : null;
   const repoConfig = repoConfigPath ? readJsonIfExists(repoConfigPath) : null;
 
   const merged = mergeConfig(defaults, repoConfig || {});
 
-  if (process.env.OLLAMA_HOST) merged.ollama = mergeConfig(merged.ollama || {}, { baseUrl: process.env.OLLAMA_HOST });
-  if (process.env.OLLAMA_MODEL) merged.ollama = mergeConfig(merged.ollama || {}, { model: process.env.OLLAMA_MODEL });
+  if (process.env.OLLAMA_HOST)
+    merged.ollama = mergeConfig(merged.ollama || {}, {
+      baseUrl: process.env.OLLAMA_HOST,
+    });
+  if (process.env.OLLAMA_MODEL)
+    merged.ollama = mergeConfig(merged.ollama || {}, {
+      model: process.env.OLLAMA_MODEL,
+    });
 
   return { config: merged, paths: { defaultsPath, repoConfigPath } };
 }
 
-module.exports = { loadConfig, mergeConfig };
-
+module.exports = { loadConfig };
