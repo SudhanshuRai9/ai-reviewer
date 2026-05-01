@@ -6,7 +6,7 @@ const fs = require('fs');
 
 const { loadConfig } = require('./config');
 const { chat } = require('./ollama');
-const { formatWarn, formatReviewResult } = require('./formatter');
+const { formatWarn, formatReviewResult, formatAnnotatedDiff } = require('./formatter');
 
 function findGitRoot(startDir) {
   let dir = startDir;
@@ -175,6 +175,20 @@ async function runReview({ isHook }) {
   };
 
   process.stdout.write(formatReviewResult(result));
+
+  const showAnnotatedDiff = Boolean(config.output && config.output.showAnnotatedDiff);
+  if (showAnnotatedDiff) {
+    const maxAnnotatedIssues = Number(config.output && config.output.maxAnnotatedIssues) || 30;
+    process.stdout.write('\n');
+    process.stdout.write('--- Annotated staged diff ---\n');
+    process.stdout.write(
+      formatAnnotatedDiff({
+        diff,
+        issues,
+        maxIssues: maxAnnotatedIssues
+      })
+    );
+  }
 
   return block ? 1 : 0;
 }

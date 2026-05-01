@@ -15,6 +15,10 @@
     "blockOnInvalidJson": false,
     "printModelResponseOnInvalidJson": true
   },
+  "output": {
+    "showAnnotatedDiff": true,
+    "maxAnnotatedIssues": 30
+  },
   "rules": [
     "Find security issues (injection, auth, secrets, unsafe deserialization, path traversal).",
     "Find logic bugs, edge cases, and incorrect assumptions.",
